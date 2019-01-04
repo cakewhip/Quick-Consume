@@ -11,6 +11,4 @@ public class OverlayEventListener {
             GuiFoodSlot.drawSlot(e.getResolution());
         }
     }
-
-
 }
