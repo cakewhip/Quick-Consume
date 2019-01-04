@@ -13,6 +13,19 @@ import java.lang.reflect.Field;
 public class FoodSlotUtil {
     private static final String STORED_FOOD_NBT_KEY = "Stored Food";
 
+    public static void requestConsume(EntityPlayerMP p, boolean ignoreAlwaysEdible) {
+        ItemStack is = FoodSlotUtil.getFoodSlotItemStack(p);
+
+        if(is.getItem() instanceof ItemFood && is.getCount() > 0) {
+            if(ignoreAlwaysEdible || FoodSlotUtil.isFoodAlwaysEdible(is)) {
+                is = is.getItem().onItemUseFinish(is, p.world, p);
+
+                setFoodSlotItemStack(p, is);
+                sync(p);
+            }
+        }
+    }
+
     public static void sync(EntityPlayerMP p) {
         NetworkHandler.INSTANCE.sendTo(new FoodSlotSyncMessage(p), p);
     }
