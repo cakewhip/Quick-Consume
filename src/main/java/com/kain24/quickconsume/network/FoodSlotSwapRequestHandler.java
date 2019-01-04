@@ -17,8 +17,6 @@ public class FoodSlotSwapRequestHandler implements IMessageHandler<FoodSlotSwapR
             ItemStack held = p.inventory.getCurrentItem().copy();
             ItemStack stored = StoredFoodUtil.getStoredFoodItemStack(p).copy();
 
-            System.out.println(held.getItem().getUnlocalizedName());
-
             if(held.getItem() instanceof ItemFood || held.getItem() == ItemStack.EMPTY.getItem()) {
                 StoredFoodUtil.setStoredFoodItemStack(p, held);
                 p.inventory.setInventorySlotContents(p.inventory.currentItem, stored);
