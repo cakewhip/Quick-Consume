@@ -17,7 +17,7 @@ public class FoodSlotUtil {
         ItemStack is = FoodSlotUtil.getFoodSlotItemStack(p);
 
         if(is.getItem() instanceof ItemFood && is.getCount() > 0) {
-            if(ignoreAlwaysEdible || FoodSlotUtil.isFoodAlwaysEdible(is)) {
+            if(ignoreAlwaysEdible || FoodSlotUtil.isFoodAlwaysEdible(is) || p.getFoodStats().needFood()) {
                 is = is.getItem().onItemUseFinish(is, p.world, p);
 
                 setFoodSlotItemStack(p, is);
