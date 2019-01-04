@@ -17,7 +17,8 @@ public class QuickConsume {
 
     private static Logger logger;
 
-    @SidedProxy(clientSide = "com.kain24.quickconsume.ClientProxy", serverSide = "com.kain24.quickconsume.ServerProxy")
+    @SidedProxy(clientSide = "com.kain24.quickconsume.proxy.ClientProxy", serverSide = "com.kain24.quickconsume.proxy" +
+            ".ServerProxy")
     private ServerProxy proxy;
 
     @EventHandler
