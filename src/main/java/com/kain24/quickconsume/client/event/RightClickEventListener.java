@@ -1,4 +1,4 @@
-package com.kain24.quickconsume.event;
+package com.kain24.quickconsume.client.event;
 
 import com.kain24.quickconsume.network.FoodSlotSwapRequestMessage;
 import com.kain24.quickconsume.network.NetworkHandler;

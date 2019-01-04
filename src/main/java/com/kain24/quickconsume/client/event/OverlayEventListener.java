@@ -1,4 +1,4 @@
-package com.kain24.quickconsume.event;
+package com.kain24.quickconsume.client.event;
 
 import com.kain24.quickconsume.client.gui.GuiFoodSlot;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
