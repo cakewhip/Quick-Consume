@@ -10,7 +10,7 @@ import org.lwjgl.input.Keyboard;
 
 public class ClientProxy extends ServerProxy {
     public static KeyBinding consumeKey =
-            new KeyBinding("key.consume.desc", Keyboard.KEY_G, "key.quickconsume.category");
+            new KeyBinding("key.quickconsume", Keyboard.KEY_G, "key.categories.quickconsume");
 
     public void preInit() {
         super.preInit();
