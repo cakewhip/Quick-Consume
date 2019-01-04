@@ -7,7 +7,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class OverlayEventListener {
     @SubscribeEvent
     public static void renderHotbar(RenderGameOverlayEvent e) {
-        if (e.getType() == RenderGameOverlayEvent.ElementType.HOTBAR) {
+        if(e.getType() == RenderGameOverlayEvent.ElementType.HOTBAR) {
             GuiFoodSlot.drawSlot(e.getResolution());
         }
     }
