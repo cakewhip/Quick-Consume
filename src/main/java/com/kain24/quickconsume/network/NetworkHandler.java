@@ -15,5 +15,7 @@ public class NetworkHandler {
                 FoodSlotSwapRequestMessage.class, ID_COUNTER++, Side.SERVER);
         INSTANCE.registerMessage(FoodSlotSyncHandler.class,
                 FoodSlotSyncMessage.class, ID_COUNTER++, Side.CLIENT);
+        INSTANCE.registerMessage(ConsumeRequestHandler.class,
+                ConsumeRequestMessage.class, ID_COUNTER++, Side.SERVER);
     }
 }
