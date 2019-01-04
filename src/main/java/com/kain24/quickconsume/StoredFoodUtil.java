@@ -8,15 +8,15 @@ public class StoredFoodUtil {
     private static final String STORED_FOOD_NBT_KEY = "Stored Food";
 
     public static ItemStack getStoredFoodItemStack(EntityPlayer p) {
-        ItemStack stored = null;
+        ItemStack stored = ItemStack.EMPTY;
 
-        NBTTagCompound nbt = p.getEntityData().getCompoundTag(QuickConsume.MODID);
+        NBTTagCompound nbt = getModNBT(p);
 
         if(nbt.hasKey(STORED_FOOD_NBT_KEY)) {
             stored = new ItemStack(nbt.getCompoundTag(STORED_FOOD_NBT_KEY));
         }
 
-        return null;
+        return stored;
     }
 
     public static void setStoredFoodItemStack(EntityPlayer p, ItemStack is) {
@@ -24,6 +24,20 @@ public class StoredFoodUtil {
 
         is.writeToNBT(nbt);
 
-        p.getEntityData().getCompoundTag(QuickConsume.MODID).setTag(STORED_FOOD_NBT_KEY, nbt);
+        getModNBT(p).setTag(STORED_FOOD_NBT_KEY, nbt);
+    }
+
+    private static NBTTagCompound getModNBT(EntityPlayer p) {
+        NBTTagCompound pNbt = p.getEntityData();
+
+        if(pNbt.hasKey(QuickConsume.MODID)) {
+            return pNbt.getCompoundTag(QuickConsume.MODID);
+        } else {
+            NBTTagCompound nbt = new NBTTagCompound();
+
+            pNbt.setTag(QuickConsume.MODID, nbt);
+
+            return nbt;
+        }
     }
 }
