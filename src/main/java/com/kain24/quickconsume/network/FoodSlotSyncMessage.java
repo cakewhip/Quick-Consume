@@ -1,6 +1,6 @@
 package com.kain24.quickconsume.network;
 
-import com.kain24.quickconsume.StoredFoodUtil;
+import com.kain24.quickconsume.FoodSlotUtil;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -11,7 +11,7 @@ public class FoodSlotSyncMessage implements IMessage {
     public ItemStack updatedItemStack;
 
     public FoodSlotSyncMessage(EntityPlayer p) {
-        updatedItemStack = StoredFoodUtil.getStoredFoodItemStack(p);
+        updatedItemStack = FoodSlotUtil.getFoodSlotItemStack(p);
     }
 
     public FoodSlotSyncMessage() {

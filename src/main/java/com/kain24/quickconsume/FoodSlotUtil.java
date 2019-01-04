@@ -1,13 +1,20 @@
 package com.kain24.quickconsume;
 
+import com.kain24.quickconsume.network.FoodSlotSyncMessage;
+import com.kain24.quickconsume.network.NetworkHandler;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class StoredFoodUtil {
+public class FoodSlotUtil {
     private static final String STORED_FOOD_NBT_KEY = "Stored Food";
 
-    public static ItemStack getStoredFoodItemStack(EntityPlayer p) {
+    public static void sync(EntityPlayerMP p) {
+        NetworkHandler.INSTANCE.sendTo(new FoodSlotSyncMessage(p), p);
+    }
+
+    public static ItemStack getFoodSlotItemStack(EntityPlayer p) {
         ItemStack stored = ItemStack.EMPTY;
 
         NBTTagCompound nbt = getModNBT(p);
@@ -19,7 +26,7 @@ public class StoredFoodUtil {
         return stored;
     }
 
-    public static void setStoredFoodItemStack(EntityPlayer p, ItemStack is) {
+    public static void setFoodSlotItemStack(EntityPlayer p, ItemStack is) {
         NBTTagCompound nbt = new NBTTagCompound();
 
         is.writeToNBT(nbt);

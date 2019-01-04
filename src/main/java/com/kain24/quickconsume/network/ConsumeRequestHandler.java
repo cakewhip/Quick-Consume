@@ -1,6 +1,6 @@
 package com.kain24.quickconsume.network;
 
-import com.kain24.quickconsume.StoredFoodUtil;
+import com.kain24.quickconsume.FoodSlotUtil;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
@@ -14,13 +14,13 @@ public class ConsumeRequestHandler implements IMessageHandler<ConsumeRequestMess
         EntityPlayerMP p = ctx.getServerHandler().player;
 
         p.getServerWorld().addScheduledTask(() -> {
-            ItemStack is = StoredFoodUtil.getStoredFoodItemStack(p);
+            ItemStack is = FoodSlotUtil.getFoodSlotItemStack(p);
 
             if(is.getItem() instanceof ItemFood && is.getCount() > 0) {
                 is = is.getItem().onItemUseFinish(is, p.world, p);
 
-                StoredFoodUtil.setStoredFoodItemStack(p, is);
-                NetworkHandler.INSTANCE.sendTo(new FoodSlotSyncMessage(p), p);
+                FoodSlotUtil.setFoodSlotItemStack(p, is);
+                FoodSlotUtil.sync(p);
             }
         });
 

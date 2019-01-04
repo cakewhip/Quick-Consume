@@ -1,6 +1,6 @@
 package com.kain24.quickconsume.network;
 
-import com.kain24.quickconsume.StoredFoodUtil;
+import com.kain24.quickconsume.FoodSlotUtil;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
@@ -15,13 +15,13 @@ public class FoodSlotSwapRequestHandler implements IMessageHandler<FoodSlotSwapR
 
         p.getServerWorld().addScheduledTask(() -> {
             ItemStack held = p.inventory.getCurrentItem().copy();
-            ItemStack stored = StoredFoodUtil.getStoredFoodItemStack(p).copy();
+            ItemStack stored = FoodSlotUtil.getFoodSlotItemStack(p).copy();
 
             if(held.getItem() instanceof ItemFood || held.getItem() == ItemStack.EMPTY.getItem()) {
-                StoredFoodUtil.setStoredFoodItemStack(p, held);
+                FoodSlotUtil.setFoodSlotItemStack(p, held);
                 p.inventory.setInventorySlotContents(p.inventory.currentItem, stored);
 
-                NetworkHandler.INSTANCE.sendTo(new FoodSlotSyncMessage(p), p);
+                FoodSlotUtil.sync(p);
             }
         });
 

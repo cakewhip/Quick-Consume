@@ -1,6 +1,6 @@
 package com.kain24.quickconsume.event;
 
-import com.kain24.quickconsume.StoredFoodUtil;
+import com.kain24.quickconsume.FoodSlotUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -14,7 +14,7 @@ public class PlayerCloneEventListener {
             EntityPlayer ogP = e.getOriginal();
 
             if(ogP.getServer().getWorld(ogP.dimension).getGameRules().getBoolean("keepInventory")) {
-                StoredFoodUtil.setStoredFoodItemStack(newP, StoredFoodUtil.getStoredFoodItemStack(ogP));
+                FoodSlotUtil.setFoodSlotItemStack(newP, FoodSlotUtil.getFoodSlotItemStack(ogP));
             }
         }
     }

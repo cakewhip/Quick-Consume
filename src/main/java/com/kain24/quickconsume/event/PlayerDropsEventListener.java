@@ -1,8 +1,6 @@
 package com.kain24.quickconsume.event;
 
-import com.kain24.quickconsume.StoredFoodUtil;
-import com.kain24.quickconsume.network.FoodSlotSyncMessage;
-import com.kain24.quickconsume.network.NetworkHandler;
+import com.kain24.quickconsume.FoodSlotUtil;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -16,13 +14,13 @@ public class PlayerDropsEventListener {
         EntityPlayer p = e.getEntityPlayer();
 
         if(!p.world.isRemote) {
-            ItemStack is = StoredFoodUtil.getStoredFoodItemStack(p);
+            ItemStack is = FoodSlotUtil.getFoodSlotItemStack(p);
 
             if(!is.isEmpty()) {
                 e.getDrops().add(new EntityItem(p.world, p.posX, p.posY, p.posZ, is));
 
-                StoredFoodUtil.setStoredFoodItemStack(p, ItemStack.EMPTY);
-                NetworkHandler.INSTANCE.sendTo(new FoodSlotSyncMessage(p), (EntityPlayerMP) p);
+                FoodSlotUtil.setFoodSlotItemStack(p, ItemStack.EMPTY);
+                FoodSlotUtil.sync((EntityPlayerMP) p);
             }
         }
     }
