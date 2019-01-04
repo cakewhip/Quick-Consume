@@ -17,7 +17,7 @@ public class ConsumeRequestHandler implements IMessageHandler<ConsumeRequestMess
             ItemStack is = FoodSlotUtil.getFoodSlotItemStack(p);
 
             if(is.getItem() instanceof ItemFood && is.getCount() > 0) {
-                if(FoodSlotUtil.isFoodAlwaysEdible(is)) {
+                if(m.ignoreAlwaysEdible || FoodSlotUtil.isFoodAlwaysEdible(is)) {
                     is = is.getItem().onItemUseFinish(is, p.world, p);
 
                     FoodSlotUtil.setFoodSlotItemStack(p, is);
