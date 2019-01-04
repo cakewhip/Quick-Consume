@@ -4,8 +4,11 @@ import com.kain24.quickconsume.network.FoodSlotSyncMessage;
 import com.kain24.quickconsume.network.NetworkHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+
+import java.lang.reflect.Field;
 
 public class FoodSlotUtil {
     private static final String STORED_FOOD_NBT_KEY = "Stored Food";
@@ -32,6 +35,27 @@ public class FoodSlotUtil {
         is.writeToNBT(nbt);
 
         getModNBT(p).setTag(STORED_FOOD_NBT_KEY, nbt);
+    }
+
+    /**
+     * Precondition!: the ItemStack contains an item of type ItemFood
+     *
+     * @param is ItemStack with item of type ItemFood
+     * @return whether the item within the ItemStack is always edible
+     */
+    public static boolean isFoodAlwaysEdible(ItemStack is) {
+        ItemFood food = (ItemFood) is.getItem();
+
+        try {
+            Field f = ItemFood.class.getDeclaredField("alwaysEdible");
+            f.setAccessible(true);
+
+            return (boolean) f.get(food);
+        } catch(NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 
     private static NBTTagCompound getModNBT(EntityPlayer p) {
