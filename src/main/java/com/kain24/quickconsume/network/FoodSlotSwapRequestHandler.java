@@ -2,6 +2,7 @@ package com.kain24.quickconsume.network;
 
 import com.kain24.quickconsume.StoredFoodUtil;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -16,10 +17,14 @@ public class FoodSlotSwapRequestHandler implements IMessageHandler<FoodSlotSwapR
             ItemStack held = p.inventory.getCurrentItem().copy();
             ItemStack stored = StoredFoodUtil.getStoredFoodItemStack(p).copy();
 
-            StoredFoodUtil.setStoredFoodItemStack(p, held);
-            p.inventory.setInventorySlotContents(p.inventory.currentItem, stored);
+            System.out.println(held.getItem().getUnlocalizedName());
 
-            NetworkHandler.INSTANCE.sendTo(new FoodSlotSyncMessage(p), p);
+            if(held.getItem() instanceof ItemFood || held.getItem() == ItemStack.EMPTY.getItem()) {
+                StoredFoodUtil.setStoredFoodItemStack(p, held);
+                p.inventory.setInventorySlotContents(p.inventory.currentItem, stored);
+
+                NetworkHandler.INSTANCE.sendTo(new FoodSlotSyncMessage(p), p);
+            }
         });
 
         return null;
