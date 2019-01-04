@@ -13,7 +13,7 @@ import org.apache.logging.log4j.Logger;
 public class QuickConsume {
     public static final String MODID = "quickconsume";
     public static final String NAME = "Quick Consume";
-    public static final String VERSION = "1.0";
+    public static final String VERSION = "1.12.2-1.0.0.0";
 
     private static Logger logger;
 
