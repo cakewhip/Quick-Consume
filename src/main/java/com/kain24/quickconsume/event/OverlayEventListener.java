@@ -1,0 +1,17 @@
+package com.kain24.quickconsume.event;
+
+import com.kain24.quickconsume.client.gui.GuiFoodSlot;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+
+public class OverlayEventListener {
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public static void renderHotbar(RenderGameOverlayEvent e) {
+        if (e.getType() == RenderGameOverlayEvent.ElementType.HOTBAR) {
+            GuiFoodSlot.drawSlot(e.getResolution());
+        }
+    }
+
+
+}
