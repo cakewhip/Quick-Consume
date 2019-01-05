@@ -7,8 +7,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-
-import java.lang.reflect.Field;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
 public class FoodSlotUtil {
     private static final String STORED_FOOD_NBT_KEY = "Stored Food";
@@ -59,16 +58,7 @@ public class FoodSlotUtil {
     public static boolean isFoodAlwaysEdible(ItemStack is) {
         ItemFood food = (ItemFood) is.getItem();
 
-        try {
-            Field f = ItemFood.class.getDeclaredField("alwaysEdible");
-            f.setAccessible(true);
-
-            return (boolean) f.get(food);
-        } catch(NoSuchFieldException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-
-        return false;
+        return (boolean) ObfuscationReflectionHelper.getPrivateValue(ItemFood.class, food, "field_77852_bZ");
     }
 
     private static NBTTagCompound getModNBT(EntityPlayer p) {
