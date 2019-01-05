@@ -2,12 +2,18 @@ package com.kain24.quickconsume.event;
 
 import com.kain24.quickconsume.FoodSlotUtil;
 import com.kain24.quickconsume.QCConfig;
+import com.kain24.quickconsume.QuickConsume;
+import com.kain24.quickconsume.enchantment.EnchantmentAutoConsume;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+@Mod.EventBusSubscriber(modid = QuickConsume.MODID)
 public class PlayerTickEventListener {
     @SubscribeEvent
     public static void playerTick(LivingEvent.LivingUpdateEvent e) {
