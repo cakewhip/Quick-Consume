@@ -1,13 +1,16 @@
 package com.kain24.quickconsume.event;
 
 import com.kain24.quickconsume.FoodSlotUtil;
+import com.kain24.quickconsume.QuickConsume;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.player.PlayerDropsEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+@Mod.EventBusSubscriber(modid = QuickConsume.MODID)
 public class PlayerDropsEventListener {
     @SubscribeEvent
     public static void playerDrops(PlayerDropsEvent e) {

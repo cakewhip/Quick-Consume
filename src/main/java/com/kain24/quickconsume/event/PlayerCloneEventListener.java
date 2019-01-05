@@ -1,10 +1,13 @@
 package com.kain24.quickconsume.event;
 
 import com.kain24.quickconsume.FoodSlotUtil;
+import com.kain24.quickconsume.QuickConsume;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+@Mod.EventBusSubscriber(modid = QuickConsume.MODID)
 public class PlayerCloneEventListener {
     @SubscribeEvent
     public static void playerClone(PlayerEvent.Clone e) {
