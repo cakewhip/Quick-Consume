@@ -21,9 +21,38 @@ public class QCConfig {
     public static AutoConsume autoConsume = new AutoConsume();
 
     public static class AutoConsume {
+        @Config.RequiresWorldRestart
+        @Config.RequiresMcRestart
         @Config.Name("Auto Consume Enabled")
-        @Config.Comment("Toggles auto consumption")
+        @Config.Comment({
+                "Toggles auto consumption, whether it's enabled from the start or via enchantment.",
+                "",
+                "NOTE: Disabling this also removes the enchantment!",
+                "      A world restart might also be required!"
+        })
         public boolean autoConsumeEnabled = true;
+
+        @Config.RequiresWorldRestart
+        @Config.RequiresMcRestart
+        @Config.Name("Based On Enchantment")
+        @Config.Comment({
+                "If set to true, the ability to auto consume will be based on",
+                "whether or not the player has a helmet enchanted with \"Auto Consume\".",
+                "",
+                "The enchantment will only exist in-game if this config is enabled"
+        })
+        public boolean basedOnEnchant = true;
+
+        @Config.Name("Enchantment Rarity")
+        @Config.RangeInt(min = 0, max = 3)
+        @Config.Comment({
+                "Rarity of the enchantment if enabled.",
+                "0 = COMMON",
+                "1 = UNCOMMON",
+                "2 = RARE",
+                "3 = VERY_RARE"
+        })
+        public int enchantRarity = 1;
 
         @Config.Name("Optimize Consumption")
         @Config.Comment({
@@ -43,6 +72,6 @@ public class QCConfig {
                 "This config is available for performance issues (if existing).",
                 "Higher = Better Performance, but less time in-between auto consumption"
         })
-        public int autoConsumeTickTimer = 10;
+        public int autoConsumeTickTimer = 20;
     }
 }
