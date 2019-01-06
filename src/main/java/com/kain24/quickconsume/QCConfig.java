@@ -74,4 +74,19 @@ public class QCConfig {
         })
         public int autoConsumeTickTimer = 20;
     }
+
+    @Config.Name("Potion Bag")
+    @Config.Comment("NOTE: The server configuration will have priority than the client!")
+    public static PotionBag potionBag = new PotionBag();
+
+    public static class PotionBag {
+        @Config.RequiresWorldRestart
+        @Config.RequiresMcRestart
+        @Config.Name("Max Number of Potions In Bag")
+        @Config.Comment({
+                "Pretty self explanatory. The max number of potions a player can store",
+                "inside of the potion bag."
+        })
+        public int maxStored = 16;
+    }
 }

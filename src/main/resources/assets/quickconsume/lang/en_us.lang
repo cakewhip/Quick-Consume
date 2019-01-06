@@ -1,4 +1,6 @@
 item.potion_bag.name=Potion Bag
+item.potion_bag.info.type=Potion Type:
+item.potion_bag.info.stored=# Stored:
 
 key.categories.quickconsume=Quick Consume
 key.quickconsume=Consume Item In Food Slot
