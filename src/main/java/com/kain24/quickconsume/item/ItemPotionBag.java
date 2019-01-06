@@ -55,7 +55,7 @@ public class ItemPotionBag extends Item {
         is.setItemDamage(getDamage(is));
     }
 
-    public ItemStack getPotionType(ItemStack is) {
+    public static ItemStack getPotionType(ItemStack is) {
         if(is.getSubCompound(POTION_TYPE_NBT_KEY) != null) {
             return new ItemStack(is.getSubCompound(POTION_TYPE_NBT_KEY));
         } else {
@@ -63,14 +63,14 @@ public class ItemPotionBag extends Item {
         }
     }
 
-    public void setPotionType(ItemStack is, ItemStack potion) {
+    public static void setPotionType(ItemStack is, ItemStack potion) {
         NBTTagCompound nbt = new NBTTagCompound();
         potion.writeToNBT(nbt);
 
         is.setTagInfo(POTION_TYPE_NBT_KEY, nbt);
     }
 
-    public int getAmountStored(ItemStack is) {
+    public static int getAmountStored(ItemStack is) {
         if(is.getTagCompound() == null) {
             return 0;
         }
@@ -78,7 +78,7 @@ public class ItemPotionBag extends Item {
         return is.getTagCompound().getInteger(AMOUNT_STORED_NBT_KEY);
     }
 
-    public void setAmountStored(ItemStack is, int amt) {
+    public static void setAmountStored(ItemStack is, int amt) {
         if(is.getTagCompound() == null) {
             is.setTagCompound(new NBTTagCompound());
         }
