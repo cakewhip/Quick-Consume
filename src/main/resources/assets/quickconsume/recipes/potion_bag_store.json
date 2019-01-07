@@ -1,0 +1,12 @@
+{
+  "type": "quickconsume:potion_bag_store_factory",
+  "group": "quickconsume",
+  "ingredients": [
+    {
+      "item": "quickconsume:potion_bag"
+    }
+  ],
+  "result": {
+    "item": "quickconsume:potion_bag"
+  }
+}

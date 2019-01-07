@@ -87,6 +87,6 @@ public class QCConfig {
                 "Pretty self explanatory. The max number of potions a player can store",
                 "inside of the potion bag."
         })
-        public int maxStored = 16;
+        public int maxStored = 8;
     }
 }

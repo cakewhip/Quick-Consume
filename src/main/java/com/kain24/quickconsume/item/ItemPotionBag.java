@@ -5,9 +5,12 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.PotionType;
+import net.minecraft.potion.PotionUtils;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -38,11 +41,18 @@ public class ItemPotionBag extends Item {
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack is, @Nullable World w, List<String> tt, ITooltipFlag f) {
-        ItemStack potionType = getPotionType(is);
-        tt.add(I18n.format("item.potion_bag.info.type") + " " + (potionType == ItemStack.EMPTY ? "None" :
-                potionType.getItem().getUnlocalizedName(is)));
+        PotionType potion = getPotionType(is);
 
-        tt.add(I18n.format("item.potion_bag.info.stored") + " " + getAmountStored(is));
+        if(potion != null) {
+            ItemStack pStack = new ItemStack(Items.POTIONITEM);
+            pStack = PotionUtils.addPotionToItemStack(pStack, potion);
+
+            PotionUtils.addPotionTooltip(pStack, tt, 1.0F);
+
+            tt.add(I18n.format("item.potion_bag.info.stored") + " " + getAmountStored(is));
+        } else {
+            tt.add("None");
+        }
     }
 
     @Override
@@ -55,19 +65,21 @@ public class ItemPotionBag extends Item {
         is.setItemDamage(getDamage(is));
     }
 
-    public static ItemStack getPotionType(ItemStack is) {
-        if(is.getSubCompound(POTION_TYPE_NBT_KEY) != null) {
-            return new ItemStack(is.getSubCompound(POTION_TYPE_NBT_KEY));
-        } else {
-            return ItemStack.EMPTY;
+    public static PotionType getPotionType(ItemStack is) {
+        if(is.getTagCompound() != null) {
+            if(is.getTagCompound().hasKey(POTION_TYPE_NBT_KEY)) {
+                String type = is.getTagCompound().getString(POTION_TYPE_NBT_KEY);
+                return type.isEmpty() ? null : PotionType.getPotionTypeForName(type);
+            }
         }
+
+        return null;
     }
 
     public static void setPotionType(ItemStack is, ItemStack potion) {
-        NBTTagCompound nbt = new NBTTagCompound();
-        potion.writeToNBT(nbt);
+        PotionType type = PotionUtils.getPotionFromItem(potion);
 
-        is.setTagInfo(POTION_TYPE_NBT_KEY, nbt);
+        is.getTagCompound().setString(POTION_TYPE_NBT_KEY, type.getRegistryName().toString());
     }
 
     public static int getAmountStored(ItemStack is) {

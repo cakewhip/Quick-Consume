@@ -1,0 +1,5 @@
+{
+  "recipes": {
+    "potion_bag_store_factory": "com.kain24.quickconsume.recipe.PotionBagRecipe$Factory"
+  }
+}
