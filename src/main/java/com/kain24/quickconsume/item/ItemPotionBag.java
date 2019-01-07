@@ -1,14 +1,17 @@
 package com.kain24.quickconsume.item;
 
 import com.kain24.quickconsume.QCConfig;
+import com.kain24.quickconsume.api.IConsumable;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.potion.PotionType;
 import net.minecraft.potion.PotionUtils;
 import net.minecraft.util.NonNullList;
@@ -19,7 +22,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ItemPotionBag extends Item {
+public class ItemPotionBag extends Item implements IConsumable {
     public ItemPotionBag() {
         setRegistryName("potion_bag");
         setUnlocalizedName("potion_bag");
@@ -104,4 +107,22 @@ public class ItemPotionBag extends Item {
 
     private static final String POTION_TYPE_NBT_KEY = "Potion Type";
     private static final String AMOUNT_STORED_NBT_KEY = "Potions Stored";
+
+    @Override
+    public boolean canConsume(ItemStack is, EntityPlayer p) {
+        return true;
+    }
+
+    @Override
+    public void onConsume(ItemStack is, EntityPlayer p) {
+        if(!p.world.isRemote) {
+            for(PotionEffect effect : getPotionType(is).getEffects()) {
+                if(effect.getPotion().isInstant()) {
+                    effect.getPotion().affectEntity(p, p, p, effect.getAmplifier(), 1.0D);
+                } else {
+                    p.addPotionEffect(new PotionEffect(effect));
+                }
+            }
+        }
+    }
 }
