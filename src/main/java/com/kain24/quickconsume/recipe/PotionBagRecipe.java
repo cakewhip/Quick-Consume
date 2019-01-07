@@ -4,7 +4,9 @@ import com.google.gson.JsonObject;
 import com.kain24.quickconsume.item.ItemPotionBag;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryCrafting;
+import net.minecraft.item.ItemLingeringPotion;
 import net.minecraft.item.ItemPotion;
+import net.minecraft.item.ItemSplashPotion;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.potion.PotionType;
@@ -36,6 +38,11 @@ public class PotionBagRecipe
                     bag = is;
                 }
             } else if(is.getItem() instanceof ItemPotion) {
+                if(is.getItem() instanceof ItemSplashPotion ||
+                        is.getItem() instanceof ItemLingeringPotion) {
+                    return false; //Lingering/Splash potions = NO
+                }
+
                 if(potion != null) {
                     if(PotionUtils.getPotionFromItem(is).equals(type)) {
                         amt++;
