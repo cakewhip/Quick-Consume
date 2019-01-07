@@ -8,6 +8,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -72,7 +73,10 @@ public class ItemPotionBag extends Item implements IConsumable {
         if(is.getTagCompound() != null) {
             if(is.getTagCompound().hasKey(POTION_TYPE_NBT_KEY)) {
                 String type = is.getTagCompound().getString(POTION_TYPE_NBT_KEY);
-                return type.isEmpty() ? null : PotionType.getPotionTypeForName(type);
+
+                if(!type.isEmpty() && !type.equals("minecraft:empty")) {
+                    return PotionType.getPotionTypeForName(type);
+                }
             }
         }
 
@@ -99,6 +103,12 @@ public class ItemPotionBag extends Item implements IConsumable {
         }
 
         is.getTagCompound().setInteger(AMOUNT_STORED_NBT_KEY, amt);
+
+        if(amt <= 0) {
+            setPotionType(is, ItemStack.EMPTY);
+        }
+
+        is.setItemDamage(is.getItem().getDamage(is));
     }
 
     public static final int getMax() {
@@ -116,12 +126,20 @@ public class ItemPotionBag extends Item implements IConsumable {
     @Override
     public void onConsume(ItemStack is, EntityPlayer p) {
         if(!p.world.isRemote) {
-            for(PotionEffect effect : getPotionType(is).getEffects()) {
-                if(effect.getPotion().isInstant()) {
-                    effect.getPotion().affectEntity(p, p, p, effect.getAmplifier(), 1.0D);
-                } else {
-                    p.addPotionEffect(new PotionEffect(effect));
+            int amt = getAmountStored(is);
+
+            if(amt > 0) {
+                for(PotionEffect effect : getPotionType(is).getEffects()) {
+                    if(effect.getPotion().isInstant()) {
+                        effect.getPotion().affectEntity(p, p, p, effect.getAmplifier(), 1.0D);
+                    } else {
+                        p.addPotionEffect(new PotionEffect(effect));
+                    }
                 }
+
+                setAmountStored(is, --amt);
+
+                p.playSound(SoundEvents.ITEM_BOTTLE_FILL, 0.5F, 0.9F + p.world.rand.nextFloat() * 0.1F);
             }
         }
     }

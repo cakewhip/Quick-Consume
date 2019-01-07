@@ -1,5 +1,6 @@
 package com.kain24.quickconsume;
 
+import com.kain24.quickconsume.api.IConsumable;
 import com.kain24.quickconsume.network.FoodSlotSyncMessage;
 import com.kain24.quickconsume.network.NetworkHandler;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,6 +22,12 @@ public class FoodSlotUtil {
 
                 setFoodSlotItemStack(p, is);
                 sync(p);
+            }
+        } else if(is.getItem() instanceof IConsumable) {
+            IConsumable consumable = (IConsumable) is.getItem();
+
+            if(consumable.canConsume(is, p)) {
+                consumable.onConsume(is, p);
             }
         }
     }
