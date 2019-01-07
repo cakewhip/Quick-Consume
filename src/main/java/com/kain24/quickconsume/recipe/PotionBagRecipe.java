@@ -2,13 +2,16 @@ package com.kain24.quickconsume.recipe;
 
 import com.google.gson.JsonObject;
 import com.kain24.quickconsume.item.ItemPotionBag;
+import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.potion.PotionType;
 import net.minecraft.potion.PotionUtils;
+import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.crafting.IRecipeFactory;
 import net.minecraftforge.common.crafting.JsonContext;
 import net.minecraftforge.registries.IForgeRegistryEntry;
@@ -48,13 +51,17 @@ public class PotionBagRecipe
         }
 
 
-        if(bag != null && potion != null) {
-            PotionType storedType = ItemPotionBag.getPotionType(bag);
+        if(bag != null) {
+            if(potion != null) {
+                PotionType storedType = ItemPotionBag.getPotionType(bag);
 
-            if(storedType == null ||
-                    type.equals(storedType)) {
-                //Overfill bag = NO
-                return ItemPotionBag.getAmountStored(bag) + amt <= ItemPotionBag.getMax();
+                if(storedType == null ||
+                        type.equals(storedType)) {
+                    //Overfill bag = NO
+                    return ItemPotionBag.getAmountStored(bag) + amt <= ItemPotionBag.getMax();
+                }
+            } else {
+                return ItemPotionBag.getAmountStored(bag) > 0;
             }
         }
 
@@ -79,10 +86,50 @@ public class PotionBagRecipe
             }
         }
 
-        ItemPotionBag.setPotionType(bag, potion);
-        ItemPotionBag.setAmountStored(bag, ItemPotionBag.getAmountStored(bag) + amt);
+        if(potion != null) {
+            ItemStack newBag = bag.copy();
 
-        return bag;
+            ItemPotionBag.setPotionType(newBag, potion);
+            ItemPotionBag.setAmountStored(newBag, ItemPotionBag.getAmountStored(newBag) + amt);
+
+            return newBag;
+        } else {
+            return PotionUtils.addPotionToItemStack(new ItemStack(Items.POTIONITEM), ItemPotionBag.getPotionType(bag));
+        }
+    }
+
+    @Override
+    public NonNullList<ItemStack> getRemainingItems(InventoryCrafting inv) {
+        ItemStack bag = null;
+        int bagSlot = -1;
+        ItemStack potion = null;
+
+        for(int i = 0; i < inv.getSizeInventory(); i++) {
+            ItemStack is = inv.getStackInSlot(i);
+
+            if(is.getItem() instanceof ItemPotionBag) {
+                bag = is.copy();
+                bagSlot = i;
+            } else if(is.getItem() instanceof ItemPotion) {
+                potion = is;
+            }
+        }
+
+        if(bag != null && potion == null) {
+            if(ItemPotionBag.getAmountStored(bag) > 0) {
+                ItemStack newBag = bag.copy();
+
+                ItemPotionBag.setAmountStored(newBag, ItemPotionBag.getAmountStored(newBag) - 1);
+                inv.setInventorySlotContents(bagSlot, newBag);
+
+
+                NonNullList list = NonNullList.create();
+
+                return list;
+            }
+        }
+
+        return ForgeHooks.defaultRecipeGetRemainingItems(inv);
     }
 
     @Override
