@@ -30,6 +30,7 @@ public class ItemPotionBag extends Item implements IConsumable {
         setMaxStackSize(1);
         setMaxDamage(getMax());
         setCreativeTab(CreativeTabs.BREWING);
+        setNoRepair();
     }
 
     @Override
