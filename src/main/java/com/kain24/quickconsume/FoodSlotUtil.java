@@ -28,6 +28,7 @@ public class FoodSlotUtil {
 
             if(consumable.canConsume(is, p)) {
                 consumable.onConsume(is, p);
+                sync(p);
             }
         }
     }
