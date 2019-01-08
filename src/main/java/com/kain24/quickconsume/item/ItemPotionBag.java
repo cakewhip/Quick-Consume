@@ -115,8 +115,6 @@ public class ItemPotionBag extends Item implements IConsumable {
         if(amt <= 0) {
             setPotionType(is, ItemStack.EMPTY);
         }
-
-        is.setItemDamage(is.getItem().getDamage(is));
     }
 
     private static final String POTION_TYPE_NBT_KEY = "Potion Type";
