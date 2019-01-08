@@ -16,6 +16,8 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.potion.PotionType;
 import net.minecraft.potion.PotionUtils;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -140,7 +142,9 @@ public class ItemPotionBag extends Item implements IConsumable {
 
                 setAmountStored(is, --amt);
 
-                p.playSound(SoundEvents.ITEM_BOTTLE_FILL, 0.5F, 0.9F + p.world.rand.nextFloat() * 0.1F);
+                p.world.playSound(null, new BlockPos(p.posX, p.posY, p.posZ),
+                        SoundEvents.ENTITY_GENERIC_DRINK, SoundCategory.PLAYERS,
+                        1.0F, 0.9F + p.world.rand.nextFloat() * 0.1F);
             }
         }
     }
