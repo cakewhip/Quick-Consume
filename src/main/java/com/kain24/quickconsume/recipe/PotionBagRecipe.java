@@ -1,6 +1,7 @@
 package com.kain24.quickconsume.recipe;
 
 import com.google.gson.JsonObject;
+import com.kain24.quickconsume.QCConfig;
 import com.kain24.quickconsume.item.ItemPotionBag;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryCrafting;
@@ -65,7 +66,7 @@ public class PotionBagRecipe
                 if(storedType == null ||
                         type.equals(storedType)) {
                     //Overfill bag = NO
-                    return ItemPotionBag.getAmountStored(bag) + amt <= ItemPotionBag.getMax();
+                    return ItemPotionBag.getAmountStored(bag) + amt <= QCConfig.potionBag.maxStored;
                 }
             } else {
                 return ItemPotionBag.getAmountStored(bag) > 0;

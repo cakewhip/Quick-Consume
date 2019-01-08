@@ -30,7 +30,7 @@ public class ItemPotionBag extends Item implements IConsumable {
         setRegistryName("potion_bag");
         setUnlocalizedName("potion_bag");
         setMaxStackSize(1);
-        setMaxDamage(getMax());
+        setMaxDamage(QCConfig.potionBag.maxStored * 100);
         setCreativeTab(CreativeTabs.BREWING);
         setNoRepair();
     }
@@ -64,7 +64,7 @@ public class ItemPotionBag extends Item implements IConsumable {
 
     @Override
     public int getDamage(ItemStack is) {
-        return getMax() - getAmountStored(is) + 1;
+        return (getMaxDamage(is) - getAmountStored(is) * 100) + 1;
     }
 
     @Override
@@ -112,10 +112,6 @@ public class ItemPotionBag extends Item implements IConsumable {
         }
 
         is.setItemDamage(is.getItem().getDamage(is));
-    }
-
-    public static final int getMax() {
-        return QCConfig.potionBag.maxStored;
     }
 
     private static final String POTION_TYPE_NBT_KEY = "Potion Type";
