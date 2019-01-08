@@ -72,6 +72,11 @@ public class ItemPotionBag extends Item implements IConsumable {
         is.setItemDamage(getDamage(is));
     }
 
+    @Override
+    public boolean isEnchantable(ItemStack stack) {
+        return false;
+    }
+
     public static PotionType getPotionType(ItemStack is) {
         if(is.getTagCompound() != null) {
             if(is.getTagCompound().hasKey(POTION_TYPE_NBT_KEY)) {
