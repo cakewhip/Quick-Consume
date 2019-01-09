@@ -15,13 +15,14 @@ public class EnchantmentAutoConsume extends Enchantment {
         this.setRegistryName("autoconsume");
     }
 
+
     @Override
     public int getMinEnchantability(int enchantmentLevel) {
-        return 20;
+        return 20; //TODO Add configurability
     }
 
     @Override
     public int getMaxEnchantability(int enchantmentLevel) {
-        return 50;
+        return 50; //TODO Add configurability
     }
 }

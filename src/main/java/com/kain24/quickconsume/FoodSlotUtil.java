@@ -13,6 +13,14 @@ import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 public class FoodSlotUtil {
     private static final String STORED_FOOD_NBT_KEY = "Stored Food";
 
+    /**
+     * Attempts to consume whatever is inside the passed player's food slot.
+     * <p>
+     * Server only!
+     *
+     * @param p                  the player
+     * @param ignoreAlwaysEdible whether or not to follow the food's ignoreAlwaysEdible field
+     */
     public static void requestConsume(EntityPlayerMP p, boolean ignoreAlwaysEdible) {
         ItemStack is = FoodSlotUtil.getFoodSlotItemStack(p);
 
@@ -33,10 +41,27 @@ public class FoodSlotUtil {
         }
     }
 
+    /**
+     * Synchronizes what's inside the passed player's food slot to the player's client.
+     *
+     * Server only!
+     *
+     * @param p the player to sync with
+     */
     public static void sync(EntityPlayerMP p) {
         NetworkHandler.INSTANCE.sendTo(new FoodSlotSyncMessage(p), p);
     }
 
+    /**
+     * Gets what ItemStack is inside of the passed player's food slot.
+     *
+     * Server only!
+     * To see what the player's food slot has on the client side, use
+     * {@link com.kain24.quickconsume.client.ClientData#storedFoodItemStack}
+     *
+     * @param p the player
+     * @return the ItemStack inside the player's food slot
+     */
     public static ItemStack getFoodSlotItemStack(EntityPlayer p) {
         ItemStack stored = ItemStack.EMPTY;
 
@@ -49,6 +74,12 @@ public class FoodSlotUtil {
         return stored;
     }
 
+    /**
+     * Sets what ItemStack is inside of the passed player's food slot.
+     *
+     * @param p the player
+     * @param is the ItemStack to put in the player's food slot
+     */
     public static void setFoodSlotItemStack(EntityPlayer p, ItemStack is) {
         NBTTagCompound nbt = new NBTTagCompound();
 
@@ -58,7 +89,7 @@ public class FoodSlotUtil {
     }
 
     /**
-     * Precondition!: the ItemStack contains an item of type ItemFood
+     * Precondition!: the ItemStack contains an item of type ItemFood.
      *
      * @param is ItemStack with item of type ItemFood
      * @return whether the item within the ItemStack is always edible
@@ -69,6 +100,12 @@ public class FoodSlotUtil {
         return (boolean) ObfuscationReflectionHelper.getPrivateValue(ItemFood.class, food, "field_77852_bZ");
     }
 
+    /**
+     * Gets the mod's tag compound from the passed player.
+     *
+     * @param p the player
+     * @return the mod's tag compound
+     */
     private static NBTTagCompound getModNBT(EntityPlayer p) {
         NBTTagCompound pNbt = p.getEntityData();
 

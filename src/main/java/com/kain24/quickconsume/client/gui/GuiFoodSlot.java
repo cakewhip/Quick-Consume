@@ -17,7 +17,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class GuiFoodSlot extends Gui {
     /**
-     * Not actually a super magic number, just the offset from the center of the screen to 6 units away from the hotbar
+     * Not actually a super magic number, just the offset from the center of the screen to 6 units away from the hotbar.
      */
     private static int SUPER_MAGIC_NUMBER = 97;
 
