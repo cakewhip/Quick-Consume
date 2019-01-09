@@ -17,7 +17,7 @@ public class QCConfig {
     public static boolean ignoreAlwaysEdible = false;
 
     @Config.Name("Auto Consume")
-    @Config.Comment("NOTE: The server configuration will have priority than the client!")
+    @Config.Comment("NOTE: The server configuration will have priority over the client!")
     public static AutoConsume autoConsume = new AutoConsume();
 
     public static class AutoConsume {
@@ -76,7 +76,7 @@ public class QCConfig {
     }
 
     @Config.Name("Potion Bag")
-    @Config.Comment("NOTE: The server configuration will have priority than the client!")
+    @Config.Comment("NOTE: The server configuration will have priority over the client!")
     public static PotionBag potionBag = new PotionBag();
 
     public static class PotionBag {
