@@ -16,6 +16,10 @@ public class QCConfig {
     })
     public static boolean ignoreAlwaysEdible = false;
 
+    @Config.Name("Hide Slot When Empty")
+    @Config.Comment("Hides the food slot if it's empty.")
+    public static boolean hideWhenEmpty = false;
+
     @Config.Name("Auto Consume")
     @Config.Comment("NOTE: The server configuration will have priority over the client!")
     public static AutoConsume autoConsume = new AutoConsume();

@@ -1,5 +1,6 @@
 package com.kain24.quickconsume.client.gui;
 
+import com.kain24.quickconsume.QCConfig;
 import com.kain24.quickconsume.QuickConsume;
 import com.kain24.quickconsume.client.ClientData;
 import net.minecraft.client.Minecraft;
@@ -24,6 +25,12 @@ public class GuiFoodSlot extends Gui {
     private static ResourceLocation OVERLAY = new ResourceLocation(QuickConsume.MODID, "textures/gui/overlay.png");
 
     public static void drawSlot(ScaledResolution sr) {
+        ItemStack is = ClientData.storedFoodItemStack;
+
+        if(QCConfig.hideWhenEmpty && is.isEmpty()) {
+            return;
+        }
+
         Minecraft mc = Minecraft.getMinecraft();
 
         mc.getTextureManager().bindTexture(OVERLAY);
@@ -34,8 +41,6 @@ public class GuiFoodSlot extends Gui {
         GlStateManager.enableBlend();
 
         GuiUtils.drawTexturedModalRect(x, y, 0, 0, 22, 22, 1F);
-
-        ItemStack is = ClientData.storedFoodItemStack;
 
         if(is.equals(ItemStack.EMPTY)) {
             GuiUtils.drawTexturedModalRect(x, y, 22, 0, 22, 22, 1F);
